@@ -16,7 +16,8 @@ int main(){
 		i+=1;
 	}
 	readFile(files[0]);
-	readOBJ(files[0]);
+	struct OBJ obj;
+	readOBJ(&obj,files[0]);
 	return 0;
 }
 
