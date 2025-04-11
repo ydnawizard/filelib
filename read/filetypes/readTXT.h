@@ -38,7 +38,6 @@ void readTXT(struct TXT* txt,char* filePath){
 	txt=(struct TXT*)malloc(sizeof(struct TXT));
 	txt->CHARACTERS=malloc(sizeof(char*));
 	txt->STRINGS=malloc(sizeof(char*));
-	txt->LINES=malloc(sizeof(char*));
 	FILE* toParse=fopen(filePath,"read");
 	char* string=malloc(sizeof(char*));
 	int charCount=0;

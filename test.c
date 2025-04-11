@@ -4,7 +4,7 @@
 #include <dirent.h>
 #include <string.h>
 
-#include "read/read.h"
+#include "main.h"
 
 int main(){
 	char** objs;
