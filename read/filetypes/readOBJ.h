@@ -1,15 +1,15 @@
 #ifndef READOBJ_H
 #define READOBJ_H
 
-//OSCILLATOR's file reading C utils
+//ANDY's FILE READING C UTILS
+
+//OBJ-TYPE-SPECIFIC UTILITIES//
 
 //I know this is written kind of clunky but its fast enough and works
 //USE:
 //	1.)Define an OBJ struct
 //	2.)Make sure .obj file is in shapes directory
 //	3.)Call readOBJ on the struct and the filename
-
-//OBJ File-Type Read Definitions
 
   ///////////////////////////////////////////////////////////////
  //MAKE SURE TO INCLUDE DIRENT & STRING LIBRARIES IN MAIN FILE//
@@ -204,6 +204,7 @@ float* readVerticeTexture(char* toParse){
 	return vertice;
 }
 
+//readFace(string,int)->list of face definitions
 int** readFace(char* toParse,int pointCount){
 	int spaceCount=0;
 	int character=0;
@@ -236,6 +237,12 @@ int** readFace(char* toParse,int pointCount){
 			
 
 //MULTI-LINE PARSE FUNCTIONS//
+
+//countPoints(string)->int
+//This function counts backslashes in a string
+//and divides that number by two. This is useful
+//for discerning how many points an obj files uses
+//to define its faces
 int countPoints(char* toParse){
 	int pointCount=0;
 	int slashCount=0;
@@ -294,7 +301,6 @@ void readOBJ(struct OBJ* obj,char* file){
 			//readVertice returns a pointer to an array of doubles so memcpy must
 			//be used to move contents from the array into the OBJ structure
 			memcpy(obj->VERTICES[verticeCount],readVertice(toParseString),3*sizeof(double));
-			printf("%f \n",obj->VERTICES[verticeCount][2]);
 			//Increment releveant counters
 			verticeCount+=1;
 			component=0;
@@ -305,9 +311,7 @@ void readOBJ(struct OBJ* obj,char* file){
 			toParseString[index]=='\0';
 			obj->NORMS=(double**)realloc(obj->NORMS,(normCount+1)*sizeof(double*));
 			obj->NORMS[normCount]=(double*)malloc(3*sizeof(double));
-			printf("%s \n",toParseString);
 			memcpy(obj->NORMS[normCount],readVerticeNorm(toParseString),3*sizeof(double));
-			printf("%f \n",obj->NORMS[normCount][2]);
 			normCount+=1;
 			component=0;
 			index=0;
@@ -316,9 +320,7 @@ void readOBJ(struct OBJ* obj,char* file){
 			toParseString[index]='\0';
 			obj->TEXTURES=(float**)realloc(obj->TEXTURES,(textureCount+1)*sizeof(float*));
 			obj->TEXTURES[textureCount]=(float*)malloc(2*sizeof(float));
-			printf("%s \n",toParseString);
 			memcpy(obj->TEXTURES[textureCount],readVerticeTexture(toParseString),2*sizeof(float));
-			printf("%f \n",obj->TEXTURES[textureCount][0]);
 			textureCount+=1;
 			component=0;
 			index=0;
@@ -332,7 +334,6 @@ void readOBJ(struct OBJ* obj,char* file){
 				obj->FACES[faceCount][i]=(int*)malloc(3*sizeof(int));
 			}
 			memcpy(obj->FACES[faceCount],readFace(toParseString,pointCount),pointCount*sizeof(int*));
-			printf("%d \n",obj->FACES[faceCount][0][0]);
 			faceCount+=1;
 			component=0;
 			index=0;

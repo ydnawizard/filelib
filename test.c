@@ -7,17 +7,27 @@
 #include "read/read.h"
 
 int main(){
-	char** files;
-	files=malloc(sizeof(char**));
-	files=readDirectory("./shapes");
+	char** objs;
+	objs=malloc(sizeof(char**));
+	objs=readDirectory("./shapes");
+	char** txts;
+	txts=malloc(sizeof(char**));
+	txts=readDirectory("./texts");
 	int i=0;
-	while(files[i]!=NULL){
-		printf("%s \n",files[i]);
+	while(objs[i]!=NULL){
+		printf("%s \n",objs[i]);
 		i+=1;
 	}
-	readFile(files[0]);
+	i=0;
+	while(txts[i]!=NULL){
+		printf("%s \n",txts[i]);
+		i+=1;
+	}
 	struct OBJ obj;
-	readOBJ(&obj,files[0]);
+	readOBJ(&obj,objs[0]);
+	struct TXT txt;
+	readTXT(&txt,"./texts/subCipher.txt");
+	i=0;
 	return 0;
 }
 

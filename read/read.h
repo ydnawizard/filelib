@@ -7,18 +7,20 @@
  //MAKE SURE TO INCLUDE DIRENT & STRING LIBRARIES IN MAIN FILE//
 ///////////////////////////////////////////////////////////////
 
+//IMPORT COMPONENT HEADERS//
 #include "filetypes/readOBJ.h"
+#include "filetypes/readTXT.h"
 
-//Declare data structures for each supported file type
-
-//.txt
-struct TXT{
-	char* characters;
-	char** strings;
-	char* text;
-};
-
-///////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+//USE:                                                                  /
+//FUNCTIONS IN THIS FILE ARE GENERAL UTILITIES. THEY ARE TO BE USED     /
+//TO GAIN KNOWLEDGE ABOUT A FILE'S NATURE (EX:DISCERN FILE TYPE).       /
+//USING THE OUTPUTS OF THESE GENERAL UTILITIES, FILE-TYPE-SPECIFIC      /
+//UTILITIES CAN THEN BE CALLED. USUALLY THESE ARE STRAIGHTFORWARD       /
+//LIKE USING readOBJ(struct OBJ,file) TO READ AN OBJ FILE.              /
+//SUPPORTED FILE TYPES HAVE THEIR OWN HEADERS LOCATED IN /filetypes.    /
+//MORE IN-DEPTH UNDERSTANDING CAIN BE GAINED FROM EXAMINING THESE FILES /
+/////////////////////////////////////////////////////////////////////////
 
   /////////////////////
  //GENERAL FUNCTIONS//
@@ -69,8 +71,7 @@ char* readFileType(char* file){
 	//initialize fileType string to store file type
 	char* fileType;
 	//allocate memory for fileType string
-	fileType=malloc(sizeof(char*));
-	//while current file name char is not null terminator
+	fileType=malloc(sizeof(char*)); //while current file name char is not null terminator
 	while(file[i]!='\0'){
 		//if char is period (.) char then the file type
 		//must follow so we grab it and store it in fileType
@@ -86,8 +87,6 @@ char* readFileType(char* file){
 				j+=1;
 				//Increment k (next index in fileType)
 				k+=1;
-				//Allocate memory for next character
-				fileType=realloc(fileType,(k+1)*sizeof(char));
 			}
 			//Add null terminator to filetype string
 			break;
@@ -98,19 +97,18 @@ char* readFileType(char* file){
 	return fileType;
 }
 
-
-//readFile(file name/path)->file contents
-//Takes in a file name/path and discerns the file type.
-//Handles file reading and output of its contents based
-//on file type. It calls file type specific read functions
-//for each supported file type.
-void readFile(char* file){
-	char* fileType;
-	fileType=readFileType(file);
-	if(strcmp(fileType,"obj")==0){
-		printf("%s \n","yah?");
+//readFilePrefix(file name/path)->file chars before '.'
+char* readFilePrefix(char* file){
+	int i=0;
+	char* prefix;
+	prefix=malloc(sizeof(char*));
+	while(file[i]!='.'){
+		prefix[i]=file[i];
+		i+=1;
 	}
+	return prefix;
 }
+
 
 
 
